@@ -25,7 +25,6 @@ public final class InternalVerClientes extends javax.swing.JInternalFrame {
     }
     
     private void configurarTabla() {
-        // Obtenemos el modelo por defecto que NetBeans ya le asignó a tu JTable en el initComponents
         miModelo = (DefaultTableModel) modeloTabla.getModel();
     }
     
@@ -283,9 +282,8 @@ public void filtrarTablaClientes() {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
-        // TODO add your handling code here:
-        // 1. Verificamos si el usuario seleccionó una fila de la tabla
-    int filaSeleccionada = modeloTabla.getSelectedRow(); // 'modeloTabla' es tu JTable visual
+
+    int filaSeleccionada = modeloTabla.getSelectedRow();
     
     if (filaSeleccionada == -1) {
         javax.swing.JOptionPane.showMessageDialog(this, 
@@ -354,17 +352,16 @@ private String obtenerValorSeguro(int fila, int columna) {
     Cliente c = new Cliente();
     c.setNombre(txtNomb.getText().trim());
     c.setApellido(txtApel.getText().trim());
-    c.setCiRuc(txtCIR.getText().trim()); // Este campo se usa en el WHERE de tu UPDATE
+    c.setCiRuc(txtCIR.getText().trim());
     c.setEmail(txtEmai.getText().trim());
     c.setTelefono(txtTele.getText().trim());
     c.setDireccion(txtDire.getText().trim());
     
     ClienteDAO cDao = new ClienteDAO();
-    // Llama al método de tu DAO que hace el UPDATE usando la cedula_ruc
     if (cDao.actualizar(c)) {
         javax.swing.JOptionPane.showMessageDialog(this, "¡Cliente modificado con éxito!");
-        setCamposEditables(false); // Bloquear campos de vuelta
-        cargarClientes(); // Recargar JTable
+        setCamposEditables(false);
+        cargarClientes();
     } else {
         javax.swing.JOptionPane.showMessageDialog(this, "No se pudo actualizar el registro.", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
     }
