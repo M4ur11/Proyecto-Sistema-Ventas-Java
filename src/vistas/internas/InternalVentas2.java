@@ -183,11 +183,62 @@ for (int i = 0; i < tablaDetalle.getRowCount(); i++) {
     lblTotal.setText("TOTAL: " + totalAcumulado); 
 }
     public InternalVentas2() {
+        java.awt.Color moradogris   = new java.awt.Color(0x56, 0x45, 0x58);
+        java.awt.Color marronoscuro = new java.awt.Color(0x71, 0x3F, 0x25);
+        java.awt.Color ambar        = new java.awt.Color(0xBB, 0x74, 0x2E);
+        java.awt.Color rosa         = new java.awt.Color(0xA7, 0x79, 0x81);
+        java.awt.Color fondocampo   = new java.awt.Color(55, 42, 60);
+        java.awt.Color blancosuave  = new java.awt.Color(242, 238, 240);
+        java.awt.Font fuenteLabel   = new java.awt.Font("Verdana", java.awt.Font.BOLD, 12);
+        java.awt.Font fuenteCampo   = new java.awt.Font("Verdana", java.awt.Font.PLAIN, 13);
+        java.awt.Font fuenteBoton   = new java.awt.Font("Verdana", java.awt.Font.BOLD, 12);
+
+        setContentPane(new javax.swing.JPanel() {
+            @Override protected void paintComponent(java.awt.Graphics g) {
+                super.paintComponent(g);
+                java.awt.Graphics2D g2 = (java.awt.Graphics2D) g;
+                g2.setPaint(new java.awt.GradientPaint(0, 0, moradogris, 0, getHeight(), marronoscuro));
+                g2.fillRect(0, 0, getWidth(), getHeight());
+            }
+        });
+
         initComponents();
         ((javax.swing.plaf.basic.BasicInternalFrameUI) this.getUI()).setNorthPane(null);
         this.setBorder(null);
         modeloDetalle = (javax.swing.table.DefaultTableModel) tablaDetalle.getModel();
         modeloDetalle.setRowCount(0);
+
+        for (javax.swing.JLabel lbl : new javax.swing.JLabel[]{jLabel2, jLabel3, jLabel4, jLabel5, jLabel6, jLabel7, jLabel8, jLabel9, jLabel10, jLabel11, jLabel12, lblStock, lblTotal}) {
+            lbl.setFont(fuenteLabel);
+            lbl.setForeground(blancosuave);
+        }
+
+        for (javax.swing.JTextField txt : new javax.swing.JTextField[]{txtCI, txtNombre, txtTelefono, txtCodigo, txtDescripcion, txtPrecio, txtCantidad}) {
+            txt.setFont(fuenteCampo);
+            txt.setBackground(fondocampo);
+            txt.setForeground(blancosuave);
+            txt.setCaretColor(blancosuave);
+            txt.setBorder(javax.swing.BorderFactory.createCompoundBorder(
+                javax.swing.BorderFactory.createLineBorder(rosa),
+                javax.swing.BorderFactory.createEmptyBorder(4, 8, 4, 8)
+            ));
+        }
+
+        tablaDetalle.setBackground(fondocampo);
+        tablaDetalle.setForeground(blancosuave);
+        tablaDetalle.setGridColor(rosa);
+        tablaDetalle.getTableHeader().setBackground(marronoscuro);
+        tablaDetalle.getTableHeader().setForeground(blancosuave);
+        tablaDetalle.getTableHeader().setFont(fuenteBoton);
+        jScrollPane.getViewport().setBackground(fondocampo);
+
+        for (javax.swing.JButton btn : new javax.swing.JButton[]{btnBuscar, btnBuscar2, jButton1, jButton3, jButton4}) {
+            btn.setFont(fuenteBoton);
+            btn.setBackground(ambar);
+            btn.setForeground(blancosuave);
+            btn.setFocusPainted(false);
+            btn.setOpaque(true);
+        }
     }
 
     /**
@@ -231,57 +282,63 @@ for (int i = 0; i < tablaDetalle.getRowCount(); i++) {
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel2.setText("Datos del Cliente");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(27, 0, -1, -1));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, -1, -1));
 
         jLabel3.setText("CI/RUC");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(27, 22, -1, -1));
-        getContentPane().add(txtCI, new org.netbeans.lib.awtextra.AbsoluteConstraints(78, 22, 101, -1));
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 50, 30));
+
+        txtCI.addActionListener(this::txtCIActionPerformed);
+        getContentPane().add(txtCI, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 20, 101, -1));
 
         btnBuscar.setText("Buscar");
         btnBuscar.addActionListener(this::btnBuscarActionPerformed);
-        getContentPane().add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 20, -1, -1));
+        getContentPane().add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 20, -1, -1));
 
         jLabel4.setText("Nombre");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 20, -1, -1));
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 20, -1, 30));
 
         txtNombre.addActionListener(this::txtNombreActionPerformed);
-        getContentPane().add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 20, 150, -1));
+        getContentPane().add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 20, 150, -1));
 
         jLabel5.setText("Telefono");
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 20, -1, -1));
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 20, -1, 30));
 
         txtTelefono.addActionListener(this::txtTelefonoActionPerformed);
-        getContentPane().add(txtTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 20, 151, -1));
+        getContentPane().add(txtTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 20, 151, -1));
         getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(185, 97, -1, -1));
-        getContentPane().add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 52, 768, 10));
+        getContentPane().add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 768, 10));
 
         jLabel7.setText("Agregar Productos");
-        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 60, -1, -1));
+        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 50, 160, 30));
 
         jLabel8.setText("Codigo");
-        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, -1, -1));
-        getContentPane().add(txtCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 80, 101, -1));
+        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 80, -1, 30));
+
+        txtCodigo.addActionListener(this::txtCodigoActionPerformed);
+        getContentPane().add(txtCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 80, 100, -1));
 
         btnBuscar2.setText("Buscar");
         btnBuscar2.addActionListener(this::btnBuscar2ActionPerformed);
-        getContentPane().add(btnBuscar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 80, -1, -1));
+        getContentPane().add(btnBuscar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 110, -1, -1));
 
         jLabel9.setText("Descripcion");
-        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 80, -1, -1));
+        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 80, -1, 30));
 
         jLabel10.setText("Precio");
-        getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 110, -1, -1));
+        getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 110, 40, -1));
 
         txtDescripcion.addActionListener(this::txtDescripcionActionPerformed);
-        getContentPane().add(txtDescripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 80, 197, -1));
-        getContentPane().add(txtPrecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 110, 100, -1));
+        getContentPane().add(txtDescripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 80, 190, -1));
+
+        txtPrecio.addActionListener(this::txtPrecioActionPerformed);
+        getContentPane().add(txtPrecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 110, 100, -1));
 
         jLabel11.setText("Cantidad");
-        getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, -1, -1));
-        getContentPane().add(txtCantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 110, 85, -1));
+        getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 110, -1, -1));
+        getContentPane().add(txtCantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 110, 100, -1));
 
         lblStock.setText("Stock: ");
-        getContentPane().add(lblStock, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 130, -1, -1));
+        getContentPane().add(lblStock, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, -1, -1));
 
         tablaDetalle.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -296,25 +353,25 @@ for (int i = 0; i < tablaDetalle.getRowCount(); i++) {
         ));
         jScrollPane.setViewportView(tablaDetalle);
 
-        getContentPane().add(jScrollPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 150, 700, 181));
+        getContentPane().add(jScrollPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 150, 740, 190));
 
         jButton3.setText("Cancelar");
         jButton3.addActionListener(this::jButton3ActionPerformed);
-        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 340, -1, -1));
+        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 350, 130, 30));
 
         jButton4.setText("Guardar");
         jButton4.addActionListener(this::jButton4ActionPerformed);
-        getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 340, -1, -1));
+        getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 350, 130, 30));
 
         jLabel12.setText("TOTAL : ");
-        getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 340, -1, -1));
+        getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 350, -1, 30));
 
         lblTotal.setText("0");
-        getContentPane().add(lblTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 340, -1, -1));
+        getContentPane().add(lblTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 350, 40, 30));
 
         jButton1.setText("Agregar");
         jButton1.addActionListener(this::jButton1ActionPerformed);
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 110, -1, -1));
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 110, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -435,6 +492,18 @@ if (c != null) {
         // TODO add your handling code here:
         limpiarFormularioCompleto();
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void txtPrecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPrecioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPrecioActionPerformed
+
+    private void txtCIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCIActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCIActionPerformed
+
+    private void txtCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCodigoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

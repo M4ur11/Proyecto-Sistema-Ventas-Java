@@ -1,177 +1,249 @@
 package vistas;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.GradientPaint;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import javax.swing.BorderFactory;
-import javax.swing.JOptionPane;
-import modelos.Usuario;
 import dao.UsuarioDAO;
+import java.awt.*;
+import java.awt.event.*;
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import javax.swing.border.AbstractBorder;
+import modelos.Usuario;
 
 public class Login extends javax.swing.JFrame {
 
+    private JTextField campousuario;
+    private JPasswordField campocontrasena;
+    private Image imagenfondo;
+
+    private static final String rutafondo = "/recursos/fuenteshopping.jpg";
+    private static final Color ambar       = new Color(0xBB, 0x74, 0x2E);
+    private static final Color textoclaro  = new Color(240, 236, 240);
+    private static final Color placeholder = new Color(185, 168, 180);
+
     public Login() {
-        javax.swing.JPanel panelFondo = new javax.swing.JPanel() {
+        imagenfondo = cargarImagen();
+        initComponents();
+        setLocationRelativeTo(null);
+    }
+
+    private Image cargarImagen() {
+        try {
+            return ImageIO.read(getClass().getResource(rutafondo));
+        } catch (Exception ignorado) {
+            return null;
+        }
+    }
+
+    private void initComponents() {
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setTitle("Sistema de Ventas");
+        setResizable(false);
+        setSize(960, 700);
+
+        JPanel fondo = new JPanel(null) {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                Graphics2D g2d = (Graphics2D) g;
-                GradientPaint gp = new GradientPaint(0, 0, new Color(0, 191, 255), 0, getHeight(), new Color(0, 26, 120));
-                g2d.setPaint(gp);
-                g2d.fillRect(0, 0, getWidth(), getHeight());
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+                g2.setColor(new Color(20, 15, 25));
+                g2.fillRect(0, 0, getWidth(), getHeight());
+                if (imagenfondo != null) {
+                    int imgw = imagenfondo.getWidth(this);
+                    int imgh = imagenfondo.getHeight(this);
+                    if (imgw > 0 && imgh > 0) {
+                        double escala = Math.max((double) getWidth() / imgw, (double) getHeight() / imgh);
+                        int w = (int)(imgw * escala);
+                        int h = (int)(imgh * escala);
+                        g2.drawImage(imagenfondo, (getWidth() - w) / 2, (getHeight() - h) / 2, w, h, this);
+                    }
+                }
+                g2.setColor(new Color(0, 0, 0, 55));
+                g2.fillRect(0, 0, getWidth(), getHeight());
+                g2.dispose();
             }
         };
-        this.setContentPane(panelFondo);
+        fondo.setOpaque(true);
+        setContentPane(fondo);
 
-        initComponents();
-        this.setLocationRelativeTo(null);
-        this.setSize(800, 500); 
+        int anchocarta = 380;
+        int altocarta  = 390;
 
-        lblUsuario1.setFont(new Font("Segoe UI", Font.BOLD, 32));
-        lblUsuario1.setForeground(Color.WHITE);
+        JPanel tarjeta = new JPanel(null) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2.setColor(new Color(28, 18, 34, 165));
+                g2.fillRoundRect(0, 0, getWidth(), getHeight(), 28, 28);
+                g2.setColor(new Color(167, 121, 129, 130));
+                g2.setStroke(new BasicStroke(1.3f));
+                g2.drawRoundRect(1, 1, getWidth() - 2, getHeight() - 2, 28, 28);
+                g2.dispose();
+            }
+        };
+        tarjeta.setOpaque(false);
+        tarjeta.setBounds((960 - anchocarta) / 2, (700 - altocarta) / 2, anchocarta, altocarta);
+        fondo.add(tarjeta);
 
-        Font fuenteLabel = new Font("Segoe UI", Font.BOLD, 14);
-        lblUsuario.setFont(fuenteLabel);
-        lblUsuario.setForeground(Color.WHITE);
-        lblContrasena.setFont(fuenteLabel);
-        lblContrasena.setForeground(Color.WHITE);
+        int margen     = 46;
+        int anchocampo = anchocarta - margen * 2;
 
-        
-        Font fuenteInput = new Font("Segoe UI", Font.PLAIN, 14);
-        Color fondoInput = new Color(248, 249, 250); 
-        javax.swing.JTextField[] cajas = {txtUsuario, txtContrasena};
-        
-        for (javax.swing.JTextField caja : cajas) {
-            caja.setFont(fuenteInput);
-            caja.setBackground(fondoInput);
-            caja.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(new Color(206, 212, 218)),
-                BorderFactory.createEmptyBorder(5, 10, 5, 10) // Padding interno
-            ));
-        }
+        JLabel titulo = new JLabel("SISTEMA DE VENTAS", SwingConstants.CENTER);
+        titulo.setFont(new Font("Verdana", Font.BOLD, 22));
+        titulo.setForeground(Color.WHITE);
+        titulo.setBounds(0, 38, anchocarta, 42);
+        tarjeta.add(titulo);
 
-        
-        Font fuenteBotones = new Font("Segoe UI", Font.BOLD, 14);
-        
-        btnIniciarSesion.setBackground(new Color(40, 167, 69)); // Verde éxito
-        btnIniciarSesion.setForeground(Color.WHITE);
-        btnIniciarSesion.setFont(fuenteBotones);
-        btnIniciarSesion.setFocusPainted(false);
-        btnIniciarSesion.setBorder(BorderFactory.createEmptyBorder(8, 15, 8, 15));
-        btnIniciarSesion.setOpaque(true);
-        btnIniciarSesion.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        
-        btnRegistrarse.setBackground(new Color(108, 117, 125));
-        btnRegistrarse.setForeground(Color.WHITE);
-        btnRegistrarse.setFont(fuenteBotones);
-        btnRegistrarse.setFocusPainted(false);
-        btnRegistrarse.setBorder(BorderFactory.createEmptyBorder(8, 15, 8, 15));
-        btnRegistrarse.setOpaque(true);
-        btnRegistrarse.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        campousuario = crearCampoTexto("Usuario");
+        campousuario.setBounds(margen, 112, anchocampo, 42);
+        tarjeta.add(campousuario);
+
+        campocontrasena = new JPasswordField("Contraseña");
+        campocontrasena.setEchoChar((char) 0);
+        campocontrasena.setFont(new Font("Verdana", Font.PLAIN, 13));
+        campocontrasena.setForeground(placeholder);
+        campocontrasena.setCaretColor(Color.WHITE);
+        campocontrasena.setOpaque(false);
+        campocontrasena.setBorder(BorderFactory.createCompoundBorder(
+            new BordeInferior(new Color(200, 175, 190, 200)),
+            BorderFactory.createEmptyBorder(8, 0, 8, 0)
+        ));
+        campocontrasena.setBounds(margen, 180, anchocampo, 42);
+        campocontrasena.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (String.valueOf(campocontrasena.getPassword()).equals("Contraseña")) {
+                    campocontrasena.setText("");
+                    campocontrasena.setEchoChar('•');
+                    campocontrasena.setForeground(Color.WHITE);
+                }
+            }
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (campocontrasena.getPassword().length == 0) {
+                    campocontrasena.setEchoChar((char) 0);
+                    campocontrasena.setText("Contraseña");
+                    campocontrasena.setForeground(placeholder);
+                }
+            }
+        });
+        tarjeta.add(campocontrasena);
+
+        JButton botonentrar = new JButton("Iniciar Sesion") {
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2.setColor(ambar);
+                g2.fillRoundRect(0, 0, getWidth(), getHeight(), 12, 12);
+                g2.dispose();
+                super.paintComponent(g);
+            }
+        };
+        botonentrar.setFont(new Font("Verdana", Font.BOLD, 14));
+        botonentrar.setForeground(Color.WHITE);
+        botonentrar.setContentAreaFilled(false);
+        botonentrar.setFocusPainted(false);
+        botonentrar.setBorderPainted(false);
+        botonentrar.setOpaque(false);
+        botonentrar.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        botonentrar.setBounds(margen, 252, anchocampo, 48);
+        botonentrar.addActionListener(this::accionentrar);
+        tarjeta.add(botonentrar);
+
+        JLabel lblregistro = new JLabel("<html>¿No tenés cuenta?&nbsp;&nbsp;<b>Registrarse</b></html>", SwingConstants.CENTER);
+        lblregistro.setFont(new Font("Verdana", Font.PLAIN, 12));
+        lblregistro.setForeground(textoclaro);
+        lblregistro.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        lblregistro.setBounds(0, 326, anchocarta, 30);
+        lblregistro.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                accionregistrarse();
+            }
+        });
+        tarjeta.add(lblregistro);
     }
 
-    @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
-
-        lblUsuario = new javax.swing.JLabel();
-        txtUsuario = new javax.swing.JTextField();
-        lblContrasena = new javax.swing.JLabel();
-        txtContrasena = new javax.swing.JPasswordField();
-        btnIniciarSesion = new javax.swing.JButton();
-        btnRegistrarse = new javax.swing.JButton();
-        lblUsuario1 = new javax.swing.JLabel();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Iniciar Sesión");
-        setResizable(false);
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        lblUsuario.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
-        lblUsuario.setText("Usuario:");
-        getContentPane().add(lblUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 140, 300, -1));
-        getContentPane().add(txtUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 170, 300, 35));
-
-        lblContrasena.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
-        lblContrasena.setText("Contraseña:");
-        getContentPane().add(lblContrasena, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 230, 300, -1));
-        getContentPane().add(txtContrasena, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 260, 300, 35));
-
-        btnIniciarSesion.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
-        btnIniciarSesion.setText("Iniciar Sesión");
-        btnIniciarSesion.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        btnIniciarSesion.setBorderPainted(false);
-        btnIniciarSesion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnIniciarSesionActionPerformed(evt);
+    private JTextField crearCampoTexto(String ph) {
+        JTextField campo = new JTextField(ph);
+        campo.setFont(new Font("Verdana", Font.PLAIN, 13));
+        campo.setForeground(placeholder);
+        campo.setCaretColor(Color.WHITE);
+        campo.setOpaque(false);
+        campo.setBorder(BorderFactory.createCompoundBorder(
+            new BordeInferior(new Color(200, 175, 190, 200)),
+            BorderFactory.createEmptyBorder(8, 0, 8, 0)
+        ));
+        campo.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (campo.getText().equals(ph)) {
+                    campo.setText("");
+                    campo.setForeground(Color.WHITE);
+                }
+            }
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (campo.getText().isEmpty()) {
+                    campo.setText(ph);
+                    campo.setForeground(placeholder);
+                }
             }
         });
-        getContentPane().add(btnIniciarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 330, 140, 40));
+        return campo;
+    }
 
-        btnRegistrarse.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
-        btnRegistrarse.setText("Registrarse");
-        btnRegistrarse.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        btnRegistrarse.setBorderPainted(false);
-        btnRegistrarse.setFocusPainted(false);
-        btnRegistrarse.setOpaque(true);
-        btnRegistrarse.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRegistrarseActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnRegistrarse, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 330, 140, 40));
+    private static class BordeInferior extends AbstractBorder {
+        private final Color color;
+        BordeInferior(Color color) { this.color = color; }
 
-        lblUsuario1.setFont(new java.awt.Font("Verdana", 1, 24)); // NOI18N
-        lblUsuario1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblUsuario1.setText("INICIAR SESION");
-        getContentPane().add(lblUsuario1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 800, -1));
+        @Override
+        public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+            Graphics2D g2 = (Graphics2D) g.create();
+            g2.setColor(color);
+            g2.setStroke(new BasicStroke(1.5f));
+            g2.drawLine(x, y + height - 1, x + width - 1, y + height - 1);
+            g2.dispose();
+        }
 
-        pack();
-        setLocationRelativeTo(null);
-    }// </editor-fold>//GEN-END:initComponents
+        @Override
+        public Insets getBorderInsets(Component c) { return new Insets(0, 0, 2, 0); }
 
-    private void btnIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarSesionActionPerformed
-        String usuarioEscrito = txtUsuario.getText().trim();
-        String passEscrita = new String(txtContrasena.getPassword()).trim(); 
-        
-        Usuario usuarioFormulario = new Usuario(usuarioEscrito, passEscrita);
+        @Override
+        public Insets getBorderInsets(Component c, Insets insets) {
+            insets.left = insets.top = insets.right = 0;
+            insets.bottom = 2;
+            return insets;
+        }
+    }
+
+    private void accionentrar(ActionEvent evt) {
+        String usuarioescrito = campousuario.getText().trim();
+        String passescrita    = new String(campocontrasena.getPassword()).trim();
+        if (usuarioescrito.equals("Usuario") || usuarioescrito.isEmpty()
+                || passescrita.isEmpty() || passescrita.equals("Contraseña")) {
+            JOptionPane.showMessageDialog(this, "Completá usuario y contraseña");
+            return;
+        }
+        Usuario usuarioformulario = new Usuario(usuarioescrito, passescrita);
         UsuarioDAO dao = new UsuarioDAO();
-        
-        if (dao.login(usuarioFormulario)) { 
-            JOptionPane.showMessageDialog(this, "Login correcto");
-            String usuario = txtUsuario.getText();
-            Menu ventanaMenu = new Menu(usuario);
-            Menu menu = new Menu(usuario);
-            menu.setVisible(true);
-            this.dispose(); 
+        if (dao.login(usuarioformulario)) {
+            new Menu(usuarioescrito).setVisible(true);
+            this.dispose();
         } else {
             JOptionPane.showMessageDialog(this, "Usuario y/o contraseña incorrectos");
         }
-    }//GEN-LAST:event_btnIniciarSesionActionPerformed
+    }
 
-    private void btnRegistrarseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarseActionPerformed
-        Registro pantallaRegistro = new Registro();
-        pantallaRegistro.setVisible(true);
+    private void accionregistrarse() {
+        new Registro().setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_btnRegistrarseActionPerformed
+    }
 
     public static void main(String args[]) {
         System.setProperty("awt.useSystemAAFontSettings", "on");
         System.setProperty("swing.aatext", "true");
-        java.awt.EventQueue.invokeLater(() -> {
-            new Login().setVisible(true);
-        });
+        java.awt.EventQueue.invokeLater(() -> new Login().setVisible(true));
     }
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnIniciarSesion;
-    private javax.swing.JButton btnRegistrarse;
-    private javax.swing.JLabel lblContrasena;
-    private javax.swing.JLabel lblUsuario;
-    private javax.swing.JLabel lblUsuario1;
-    private javax.swing.JPasswordField txtContrasena;
-    private javax.swing.JTextField txtUsuario;
-    // End of variables declaration//GEN-END:variables
 }
