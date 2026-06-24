@@ -158,16 +158,15 @@ public class InternalNuevoCliente extends javax.swing.JInternalFrame {
                     .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(150, 150, 150))
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(312, 312, 312)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(187, 187, 187)
-                        .addComponent(btnVaciarCampos, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnOk, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(312, 312, 312)
+                .addComponent(jLabel1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnVaciarCampos, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnOk, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(211, 211, 211))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -192,11 +191,11 @@ public class InternalNuevoCliente extends javax.swing.JInternalFrame {
                     .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9)
                     .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 126, Short.MAX_VALUE)
+                .addGap(70, 70, 70)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnOk)
                     .addComponent(btnVaciarCampos))
-                .addGap(39, 39, 39))
+                .addContainerGap(95, Short.MAX_VALUE))
         );
     }
 
@@ -211,14 +210,14 @@ public class InternalNuevoCliente extends javax.swing.JInternalFrame {
             else if (evt.getSource() == btnOk) {
                 InternalNuevoCliente.this.btnOkActionPerformed(evt);
             }
-            else if (evt.getSource() == btnVaciarCampos) {
-                InternalNuevoCliente.this.btnVaciarCamposActionPerformed(evt);
+            else if (evt.getSource() == txtTelefono) {
+                InternalNuevoCliente.this.txtTelefonoActionPerformed(evt);
             }
             else if (evt.getSource() == txtEmail) {
                 InternalNuevoCliente.this.txtEmailActionPerformed(evt);
             }
-            else if (evt.getSource() == txtTelefono) {
-                InternalNuevoCliente.this.txtTelefonoActionPerformed(evt);
+            else if (evt.getSource() == btnVaciarCampos) {
+                InternalNuevoCliente.this.btnVaciarCamposActionPerformed(evt);
             }
         }
     }// </editor-fold>//GEN-END:initComponents
