@@ -266,7 +266,7 @@ public class Menu extends javax.swing.JFrame {
         name3.setFont(new Font("Verdana", Font.PLAIN, 14));
         name3.setForeground(blancosuave);
 
-        javax.swing.JLabel ci3 = new javax.swing.JLabel("X.XXX.XXX", javax.swing.SwingConstants.CENTER);
+        javax.swing.JLabel ci3 = new javax.swing.JLabel("5.641.260", javax.swing.SwingConstants.CENTER);
         ci3.setFont(new Font("Verdana", Font.PLAIN, 14));
         ci3.setForeground(blancosuave);
 
@@ -310,7 +310,7 @@ public class Menu extends javax.swing.JFrame {
         name7.setFont(new Font("Verdana", Font.PLAIN, 14));
         name7.setForeground(blancosuave);
 
-        javax.swing.JLabel ci7 = new javax.swing.JLabel("X.XXX.XXX", javax.swing.SwingConstants.CENTER);
+        javax.swing.JLabel ci7 = new javax.swing.JLabel("5.647.204", javax.swing.SwingConstants.CENTER);
         ci7.setFont(new Font("Verdana", Font.PLAIN, 14));
         ci7.setForeground(blancosuave);
 
