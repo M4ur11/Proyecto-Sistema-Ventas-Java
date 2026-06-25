@@ -363,11 +363,8 @@ for (int i = 0; i < tablaDetalle.getRowCount(); i++) {
         jButton4.addActionListener(this::jButton4ActionPerformed);
         getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 350, 130, 30));
 
-        jLabel12.setText("TOTAL : ");
-        getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 350, -1, 30));
-
-        lblTotal.setText("0");
-        getContentPane().add(lblTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 350, 40, 30));
+        lblTotal.setText("TOTAL:");
+        getContentPane().add(lblTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 350, 130, 30));
 
         jButton1.setText("Agregar");
         jButton1.addActionListener(this::jButton1ActionPerformed);
