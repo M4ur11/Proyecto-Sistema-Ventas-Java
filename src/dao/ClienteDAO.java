@@ -12,7 +12,7 @@ import java.util.List;
 public class ClienteDAO {
     
         public Cliente buscarPorCedulaRuc(String cedulaRuc) {
-        String sql = "SELECT id_cliente, nombre, apellido, telefono, direccion FROM clientes WHERE cedula_ruc = ?";
+        String sql = "SELECT id_cliente, nombre, apellido, telefono, direccion, email FROM clientes WHERE cedula_ruc = ?";
         try (Connection con = ConexionDB.conectar();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, cedulaRuc);
@@ -24,6 +24,7 @@ public class ClienteDAO {
                     c.setApellido(rs.getString("apellido"));
                     c.setTelefono(rs.getString("telefono"));
                     c.setDireccion(rs.getString("direccion"));
+                    c.setEmail(rs.getString("email"));
                     return c;
                 }
             }
@@ -92,7 +93,7 @@ public class ClienteDAO {
     
     public List<Cliente> buscarFiltrado(String nombre, String apellido, String ciRuc) {
         List<Cliente> lista = new ArrayList<>();
-        StringBuilder sql = new StringBuilder("SELECT nombre, cedula_ruc, telefono, direccion FROM clientes WHERE 1=1");
+        StringBuilder sql = new StringBuilder("SELECT nombre, apellido, cedula_ruc, telefono, direccion, email FROM clientes WHERE 1=1");
         if (!nombre.trim().isEmpty())   sql.append(" AND nombre ILIKE ?");
         if (!apellido.trim().isEmpty()) sql.append(" AND apellido ILIKE ?");
         if (!ciRuc.trim().isEmpty())    sql.append(" AND cedula_ruc LIKE ?");
@@ -108,9 +109,11 @@ public class ClienteDAO {
                 while (rs.next()) {
                     Cliente c = new Cliente();
                     c.setNombre(rs.getString("nombre"));
+                    c.setApellido(rs.getString("apellido"));
                     c.setCiRuc(rs.getString("cedula_ruc"));
                     c.setTelefono(rs.getString("telefono"));
                     c.setDireccion(rs.getString("direccion"));
+                    c.setEmail(rs.getString("email"));
                     lista.add(c);
                 }
             }
