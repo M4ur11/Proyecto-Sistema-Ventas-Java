@@ -212,7 +212,6 @@ public class Menu extends javax.swing.JFrame {
                 g2d.fillRect(0, 0, getWidth(), getHeight());
             }
         };
-        // 2. Creamos el panel principal transparente que ocupará todo el espacio
         pantallaDatos.setOpaque(true);
         pantallaDatos.setBounds(0, 0, jDesktopPane1.getWidth(), jDesktopPane1.getHeight());
         pantallaDatos.setLayout(new java.awt.BorderLayout(20, 10));
@@ -225,10 +224,8 @@ public class Menu extends javax.swing.JFrame {
 
         javax.swing.JPanel panelColumnas = new javax.swing.JPanel(new java.awt.GridLayout(9, 2, 10, 5));
         panelColumnas.setOpaque(false);
-        // Ajustamos los márgenes laterales (120px) para que no se corten los textos en Mac
         panelColumnas.setBorder(javax.swing.BorderFactory.createEmptyBorder(15, 120, 15, 120));
 
-        // --- Fila 1: Cabeceras de la tabla ---
         javax.swing.JLabel hNombre = new javax.swing.JLabel("Nombre", javax.swing.SwingConstants.CENTER);
         hNombre.setFont(new Font("Verdana", Font.BOLD, 16));
         hNombre.setForeground(blancosuave);
